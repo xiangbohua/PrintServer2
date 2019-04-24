@@ -28,11 +28,12 @@ namespace PrintServer2.UI
 
         public PrintTray()
         {
+            
             this.InitServer();
 
-            this.InitTray();
-
             this.InitEventHalder();
+
+            this.InitTray();            
         }
 
         private void InitEventHalder()

@@ -24,7 +24,7 @@ namespace PrintServer2.UI
         /// <returns></returns>
         public static Language Instance()
         {
-            if (instance != null)
+            if (instance == null)
             {
                 instance = new Language();
             }
