@@ -27,15 +27,19 @@ namespace PrintServer2.UI
         private MenuItem changePort = null;
 
         public PrintTray()
-        {
-            
+        {            
             this.InitServer();
 
             this.InitEventHalder();
 
-            this.InitTray();            
+            this.InitTray();
+
+            this.printServer.StartProcess();
         }
 
+        /// <summary>
+        /// Init the event handler
+        /// </summary>
         private void InitEventHalder()
         {
             this.clickHander = new TrayEventHander(this.printServer);
@@ -98,25 +102,52 @@ namespace PrintServer2.UI
         private void InitServer()
         {
             this.printServer = new PrintServer();
-            this.printServer.OnPrinterLoaded = this.OnTrayPrintLoaded;
+            this.printServer.OnPrinterLoaded = this.OnPrinterLoaded;
+            this.printServer.OnPrinterChanged = this.OnPrinterSelected;
         }
 
         /// <summary>
         /// When the print server has loaded all printer names then call this method to add meun items
         /// </summary>
         /// <param name="printerNames"></param>
-        private void OnTrayPrintLoaded(List<string> printerNames)
+        private void OnPrinterLoaded(List<string> printerNames)
         {
             this.selectPrinter.MenuItems.Clear();
+            
             var refreshPrinter = new MenuItem(this.language.GetText("refresh_printer", "Refresh Printer"));
             refreshPrinter.Click += this.clickHander.RefreshPrinter_Click;
-
+            this.selectPrinter.MenuItems.Add(refreshPrinter);
             foreach (var pName in printerNames) {
-                var printerMenu = new MenuItem(this.language.GetText("refresh_printer", "Refresh Printer"));
+                var printerMenu = new MenuItem(pName);
                 printerMenu.Tag = pName;
                 printerMenu.Click += this.clickHander.SelectPrinter_Click;
+                
+
                 this.selectPrinter.MenuItems.Add(printerMenu);
             }
+        }
+
+        /// <summary>
+        /// Triggered when print selected
+        /// </summary>
+        /// <param name="printName"></param>
+        private void OnPrinterSelected(string printName)
+        {
+            foreach (var mi in this.selectPrinter.MenuItems) {
+                if (mi is MenuItem)
+                {
+                    var it = mi as MenuItem;
+                    if (it.Tag != null && it.Tag.ToString() == this.printServer.GetSelectedPrinterName())
+                    {
+                        it.Checked = true;
+                    }
+                    else
+                    {
+                        it.Checked = false;
+                    }
+                }
+                
+            }            
         }
 
         /// <summary>

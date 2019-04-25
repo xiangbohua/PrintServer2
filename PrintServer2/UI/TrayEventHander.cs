@@ -26,7 +26,7 @@ namespace PrintServer2.UI
         /// <param name="e"></param>
         public void RefreshPrinter_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            this.printServer.LoadPrinters();
         }
 
 

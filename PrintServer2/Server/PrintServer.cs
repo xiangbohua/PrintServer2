@@ -38,7 +38,7 @@ namespace PrintServer2.Server
         public int Error => this.errorDocument;
 
         public int Succeed => this.succeedDocument;
-
+        
         private int GetServerPort()
         {
             var portString = AppSettingHelper.GetOne("ServerPort", this.port.ToString());
@@ -67,8 +67,9 @@ namespace PrintServer2.Server
             this.OnPrintServerLogged = delegate (string maeesage) { Console.WriteLine(maeesage); };
         }
 
-        private void LoadPrinters()
+        public void LoadPrinters()
         {
+            this.availablePrinterNames.Clear();
             foreach (var printer in PrinterSettings.InstalledPrinters)
             {
                 this.availablePrinterNames.Add(printer.ToString());
@@ -76,6 +77,7 @@ namespace PrintServer2.Server
             OnPrinterLoaded?.Invoke(availablePrinterNames);
 
             string defaultPrinter = ReadPrinterName();
+            this.selectedPrinterName = defaultPrinter;
             if (!string.IsNullOrEmpty(defaultPrinter))
             {
                 if (this.availablePrinterNames.Contains(defaultPrinter))
@@ -145,6 +147,15 @@ namespace PrintServer2.Server
                 SafeFireLoging("停止服务失败：" + ex.Message);
                 HttpServer.Logger.Log(ex.ToString());
             }
+        }
+
+        /// <summary>
+        /// 获取已经选择的打印机
+        /// </summary>
+        /// <returns></returns>
+        public string GetSelectedPrinterName()
+        {
+            return this.selectedPrinterName;
         }
 
         private Thread serialPrinThread = null;
