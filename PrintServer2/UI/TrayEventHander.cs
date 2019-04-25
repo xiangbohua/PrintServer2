@@ -45,6 +45,7 @@ namespace PrintServer2.UI
         /// <param name="e"></param>
         public void Exit_Click(object sender, EventArgs e)
         {
+            this.printServer.StopServer();
             Application.Exit();
         }
 
@@ -53,6 +54,20 @@ namespace PrintServer2.UI
             Templates formTemplate = new Templates();
             formTemplate.SetList(this.printServer.GetEngin().GetTemplates());
             formTemplate.Show();
+        }
+
+        internal void PrintMode_Click(object sender, EventArgs e)
+        {
+            var printNow = (MenuItem)sender;
+
+            this.printServer.SetPrintNow(!printNow.Checked);
+        }
+
+        internal void ShowLog_Click(object sender, EventArgs e)
+        {
+            Logs logForm = new Logs();
+            logForm.SetLoger(this.printServer.GetLoger());
+            logForm.Show();
         }
     }
 }

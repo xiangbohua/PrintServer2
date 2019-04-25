@@ -72,9 +72,13 @@ namespace PrintServer2.UI
             this.selectPrinter = new MenuItem(this.language.GetText("select_printer", "Select Printer"));
             
             this.printNow = new MenuItem(this.language.GetText("print_now", "Print Now"));
+            this.printNow.Checked = this.printServer.GetPrintMode();
+            this.printNow.Click += this.clickHander.PrintMode_Click;
+
 
             this.showLog = new MenuItem(this.language.GetText("show_log", "Show Logs"));
-        
+            this.showLog.Click += this.clickHander.ShowLog_Click;
+
             this.exitItem = new MenuItem(this.language.GetText("exit", "Exit"));
             this.exitItem.Click += this.clickHander.Exit_Click;
 
@@ -113,6 +117,12 @@ namespace PrintServer2.UI
             this.printServer = new PrintServer();
             this.printServer.OnPrinterLoaded = this.OnPrinterLoaded;
             this.printServer.OnPrinterChanged = this.OnPrinterSelected;
+            this.printServer.OnPrintModeChanged = this.OnPrintModeChanded;
+        }
+
+        private void OnPrintModeChanded(bool printNow)
+        {
+            this.printNow.Checked = printNow;
         }
 
         /// <summary>

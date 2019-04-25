@@ -1,4 +1,5 @@
 ﻿using PrintService.Common;
+using PrintService.UI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,7 +41,10 @@ namespace PrintService.Template
         /// <returns></returns>
         public Type GetTemplateType(string typeName)
         {
-            return this.container.First(x => x.Key == typeName).Value;
+            if (!this.container.ContainsKey(typeName)) {
+                throw new Exception(Language.Instance().GetText("unknown_template", "Unknown template plage check your data."));
+            }
+            return this.container[typeName];
         }
 
         /// <summary>

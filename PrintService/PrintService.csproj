@@ -68,11 +68,13 @@
     <Compile Include="Server\ConsoleLogger.cs" />
     <Compile Include="Server\FileLogger.cs" />
     <Compile Include="Server\HTTPServer.cs" />
+    <Compile Include="Server\LogContainer.cs" />
     <Compile Include="Server\PrintServer.cs" />
+    <Compile Include="Server\PrintStatistics.cs" />
     <Compile Include="Template\IEngin.cs" />
     <Compile Include="Template\IPrintObject.cs" />
     <Compile Include="Template\PdfEngin.cs" />
-    <Compile Include="Template\PdfPrint.cs">
+    <Compile Include="Template\PdfPrintBase.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Template\PrintEngineFactory.cs" />
@@ -92,15 +94,15 @@
     <Compile Include="Utility\FileHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Demo\SinglePageDemo.resx">
-      <DependentUpon>SinglePageDemo.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\HTTPServerLib\HttpServerLib.csproj">
       <Project>{C2310E13-8D59-4632-BF91-203BFF2FFE4F}</Project>
       <Name>HttpServerLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Demo\SinglePageDemo.resx">
+      <DependentUpon>SinglePageDemo.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

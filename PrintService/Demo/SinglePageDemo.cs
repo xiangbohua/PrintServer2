@@ -1,30 +1,36 @@
+
 using PrintService.Template;
 
-namespace PrintService.Demo
+namespace ReportTemplates.Transport
 {
-
-
     /// <summary>
-    /// Summary description for RepairProductLabel.
+    /// Summary description for PickOrderProductLabel.
     /// </summary>
     public partial class SinglePageDemo : PdfPrintBase
     {
-        public string product_code;
-        public string product_name;
-        public string quantity;
-        public string qr_code;
-
         public SinglePageDemo()
         {
             InitializeComponent();
         }
 
+        public string after_sale_no;
+        public string reciver;
+        public string tel;
+        public string address;
+        public string warehouse_name;
+        public string supplier_code;
+
+
         public override void SetReportData()
         {
-            txtProductCode.Value = this.product_code;
-            txtProductName.Value = this.product_name;
-            txtQuantity.Value = this.quantity;
-            barcode1.Value = this.qr_code;
+            barCodeNumber.Value = this.after_sale_no;
+            txtNumber.Value = this.after_sale_no;
+            txtNumber2.Value = this.after_sale_no;
+            txtName.Value = this.reciver;
+            txtTel.Value = this.tel;
+            txtAddress.Value = this.address;
+            txtWarehouseName.Value = this.warehouse_name;
+            txtSupplierCode.Value = this.supplier_code;
         }
     }
 }

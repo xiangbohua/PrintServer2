@@ -20,23 +20,22 @@ namespace PrintService.Server
         public PrinterLoaded OnPrinterLoaded = null;
         public PrinterChanged OnPrinterChanged = null;
         public PrintServerLogging OnPrintServerLogged = null;
-        public StatisticsStateChange OnStatisticsStateChanged = null;
+        public OnPrintStatistics OnStatisticsStateChanged = null;
+        public OnPrintModeChanged OnPrintModeChanged = null;
+
+        private readonly HTTPServer HttpServer = null;
+        private readonly Thread ServerThread = null;
+
+        private LogContainer logContainer = null;
+
+        private PrintStatistics printStatistics = null;
 
         private IEngin printEngin = null;
         private bool PrintNow = true;
 
         private bool _requestStop = false;
-        private int totalDocument = 0;
-        private int succeedDocument = 0;
-        private int errorDocument = 0;
-
         private int port = 4050;
-
-        public int Total => this.totalDocument;
-        public int Error => this.errorDocument;
-
-        public int Succeed => this.succeedDocument;
-        
+                
         private int GetServerPort()
         {
             var portString = AppSettingHelper.GetOne("ServerPort", this.port.ToString());
@@ -61,6 +60,10 @@ namespace PrintService.Server
             this.HttpServer.Logger = new FileLogger();
             this.printEngin = PrintObjectFactory.GetEngin(AppSettingHelper.GetOne("engin", "PDF"));
             this.printEngin.Initialize();
+
+            this.logContainer = new LogContainer();
+
+            this.printStatistics = new PrintStatistics();
 
             this.ServerThread = new Thread(new ThreadStart(HttpServerThread));
             this.OnPrintServerLogged = delegate (string maeesage) { Console.WriteLine(maeesage); };
@@ -99,8 +102,7 @@ namespace PrintService.Server
             }
         }
 
-        private readonly HTTPServer HttpServer = null;
-        private readonly Thread ServerThread = null;
+        
         private void StartServer()
         {
             if (!ServerThread.IsAlive)
@@ -115,6 +117,18 @@ namespace PrintService.Server
         public void SetPrintNow(bool printNow)
         {
             this.PrintNow = printNow;
+            try
+            {
+                this.OnPrintModeChanged?.Invoke(this.PrintNow);
+            }
+            catch
+            {
+            }
+        }
+
+        public bool GetPrintMode()
+        {
+            return this.PrintNow;
         }
 
         private void HttpServerThread()
@@ -139,11 +153,11 @@ namespace PrintService.Server
                 HttpServer?.Stop();
                 _requestStop = true;
                 this.printEvent.Set();
-                SafeFireLoging("服务已停止");
+                SafeFireLoging(Language.Instance().GetText("stoped", "Server was stoped"));
             }
             catch (Exception ex)
             {
-                SafeFireLoging("停止服务失败：" + ex.Message);
+                SafeFireLoging(Language.Instance().GetText("stoped", "Server was stoped"));
                 HttpServer.Logger.Log(ex.ToString());
             }
         }
@@ -155,6 +169,24 @@ namespace PrintService.Server
         public IEngin GetEngin()
         {
             return this.printEngin;
+        }
+
+        /// <summary>
+        /// Get loger
+        /// </summary>
+        /// <returns></returns>
+        public LogContainer GetLoger()
+        {
+            return this.logContainer;
+        }
+
+        /// <summary>
+        /// Get statistics object
+        /// </summary>
+        /// <returns></returns>
+        public PrintStatistics GetStatistics()
+        {
+            return this.printStatistics;
         }
 
         /// <summary>
@@ -203,11 +235,12 @@ namespace PrintService.Server
         {
             try
             {
-                this.totalDocument++;
+                ;
                 HttpRequest httpRequest = objectPara as HttpRequest;
                 if (httpRequest != null)
                 {
                     IPrintObject model = this.printEngin.GetPrintModel(httpRequest.Body);
+
                     if (model.Intervel() <= 0)
                     {
                         //不要求顺序打印
@@ -226,7 +259,7 @@ namespace PrintService.Server
             }
             catch (Exception ex)
             {
-                SafeFireLoging(Language.Instance().GetText("err_print", "Error cuer") + ex.Message);
+                SafeFireLoging(Language.Instance().GetText("err_print", "Error:") + ex.Message);
                 HttpServer.Logger.Log(ex.ToString());
             }
             SafeFirsStatistics();
@@ -281,6 +314,7 @@ namespace PrintService.Server
             try
             {
                 message = DateTime.Now.ToString() + ": " + message;
+                this.logContainer.AddLog(message);
                 OnPrintServerLogged?.Invoke(message);
             }
             catch (Exception ex)
@@ -294,11 +328,11 @@ namespace PrintService.Server
         {
             try
             {
-                OnStatisticsStateChanged?.Invoke(this.Total, this.Succeed, this.Error);
+                OnStatisticsStateChanged?.Invoke(this.printStatistics);
             }
             catch (Exception ex)
             {
-                SafeFireLoging("更新统计信息失败：" + ex.Message);
+                SafeFireLoging(Language.Instance().GetText("statistics", "Update statistics error!"));
                 HttpServer.Logger.Log(ex.ToString());
             }
         }
@@ -312,36 +346,37 @@ namespace PrintService.Server
                     this.selectedPrinterName = printerName;
                     OnPrinterChanged?.Invoke(this.selectedPrinterName);
 
-                    SafeFireLoging("打印机被选中" + printerName + " 已写入配置文件，下次启动将使用此打印机");
+                    var printLog = Language.Instance().GetText("printer_selected", "Printer selected and this printer will be used when next start!");
+                    SafeFireLoging(printLog);
 
                     WritPrinterName(printerName);
                 }
                 else
                 {
-                    SafeFireLoging("无效打印机名称");
+                    SafeFireLoging(Language.Instance().GetText("invalid_printer", "Printer was invalid!"));
                 }
             }
             catch (Exception ex)
             {
-                SafeFireLoging("更新统计信息失败：" + ex.Message);
+                SafeFireLoging(Language.Instance().GetText("invalid_printer", "Printer was invalid!"));
                 HttpServer.Logger.Log(ex.ToString());
             }
         }
 
         private void PrintFile(string shortFile)
         {
+            bool succeed = false;
             try
             {
                 this.OpenFile(shortFile);
-                this.succeedDocument++;
+                succeed = true;
             }
             catch (Exception ex)
             {
-                this.SafeFireLoging("打印时出现未知错误，请联系管理员" + ex.Message);
-                this.errorDocument++;
+                this.SafeFireLoging(Language.Instance().GetText("unknown_error", "Unknown error!"));
                 HttpServer.Logger.Log(ex.ToString());
             }
-
+            this.printStatistics.Printed(succeed);
             this.SafeFirsStatistics();
         }
 
@@ -401,9 +436,9 @@ namespace PrintService.Server
                 info.FileName = shortFile;
                 info.CreateNoWindow = true;
 
-                p.StartInfo.RedirectStandardInput = true;//重定向标准输入  
-                p.StartInfo.RedirectStandardOutput = true;//重定向标准输出  
-                p.StartInfo.RedirectStandardError = true;//重定向错误输出  
+                p.StartInfo.RedirectStandardInput = true;
+                p.StartInfo.RedirectStandardOutput = true;
+                p.StartInfo.RedirectStandardError = true; 
 
                 p.StartInfo.Arguments = this.selectedPrinterName;
                 info.WindowStyle = ProcessWindowStyle.Hidden;
@@ -414,7 +449,8 @@ namespace PrintService.Server
             }
             catch (Win32Exception win32Exception)
             {
-                this.SafeFireLoging("打印失败,请安装PDF打开软件并设为默认" + win32Exception.Message);
+                var msg = Language.Instance().GetText("reader_require", "Pdf reader was required, please install and set is as default.");
+                this.SafeFireLoging(msg);
                 throw;
             }
 
