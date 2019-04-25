@@ -1,4 +1,4 @@
-﻿using PrintServer2.Server;
+﻿using PrintService.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +49,13 @@ namespace PrintServer2.UI
         public void Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        internal void SupportedTemplates_Click(object sender, EventArgs e)
+        {
+            Templates formTemplate = new Templates();
+            formTemplate.SetList(this.printServer.GetEngin().GetTemplates());
+            formTemplate.Show();
         }
     }
 }

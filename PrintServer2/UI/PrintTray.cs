@@ -1,12 +1,11 @@
 ﻿using PrintServer2.Properties;
-using PrintServer2.Server;
-using PrintServer2.Utility;
+using PrintService.Server;
+using PrintService.UI;
+using PrintService.Utility;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace PrintServer2.UI
@@ -25,6 +24,7 @@ namespace PrintServer2.UI
         private MenuItem showLog = null;
         private MenuItem changeLanguage = null;
         private MenuItem changePort = null;
+        private MenuItem supportedTemplate = null;
 
         public PrintTray()
         {            
@@ -65,6 +65,9 @@ namespace PrintServer2.UI
             var portString = this.language.GetText("language", "Lanaguage") + "(" + this.printServer.GetWorkingPort().ToString() + ")";
             this.changePort = new MenuItem();
 
+            this.supportedTemplate = new MenuItem(this.language.GetText("show_templates", "Show Temlpates"));
+            this.supportedTemplate.Click += this.clickHander.SupportedTemplates_Click;
+
 
             this.selectPrinter = new MenuItem(this.language.GetText("select_printer", "Select Printer"));
             
@@ -73,10 +76,16 @@ namespace PrintServer2.UI
             this.showLog = new MenuItem(this.language.GetText("show_log", "Show Logs"));
         
             this.exitItem = new MenuItem(this.language.GetText("exit", "Exit"));
-
             this.exitItem.Click += this.clickHander.Exit_Click;
 
-            MenuItem[] childen = new MenuItem[] { this.changeLanguage, this.selectPrinter, this.printNow, this.showLog, this.exitItem };
+            MenuItem[] childen = new MenuItem[] {
+                this.changeLanguage,
+                this.selectPrinter,
+                this.supportedTemplate,
+                this.showLog,
+                this.printNow,
+                this.exitItem
+            };
             notifyIcon.ContextMenu = new ContextMenu(childen);
         }
 

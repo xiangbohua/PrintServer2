@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8DD3D2F4-048A-4C8E-B027-8D0B18B347D1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PrintService</RootNamespace>
+    <AssemblyName>PrintService</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\Desktop\RuiguProjects\local_print\packages\log4net.2.0.8\lib\net35-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Terlerik\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Telerik.Reporting, Version=9.1.15.624, Culture=neutral, PublicKeyToken=a9d7983dfcc261be, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Terlerik\Telerik.Reporting.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikCommon">
+      <HintPath>..\..\..\Desktop\RuiguProjects\RuiguCRM2\Thirdparty\Terlerik\TelerikCommon.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Delegates.cs" />
+    <Compile Include="Demo\SinglePageDemo.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Demo\SinglePageDemo.Designer.cs">
+      <DependentUpon>SinglePageDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\ConsoleLogger.cs" />
+    <Compile Include="Server\FileLogger.cs" />
+    <Compile Include="Server\HTTPServer.cs" />
+    <Compile Include="Server\PrintServer.cs" />
+    <Compile Include="Template\IEngin.cs" />
+    <Compile Include="Template\IPrintObject.cs" />
+    <Compile Include="Template\PdfEngin.cs" />
+    <Compile Include="Template\PdfPrint.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Template\PrintEngineFactory.cs" />
+    <Compile Include="Template\PrintQueue.cs" />
+    <Compile Include="Template\ReportGenerator.cs" />
+    <Compile Include="Template\TemplateContainer.cs" />
+    <Compile Include="UI\Language.cs" />
+    <Compile Include="Update\Enums.cs" />
+    <Compile Include="Update\IUpdateChecker.cs" />
+    <Compile Include="Update\UpdateCheckerFile.cs" />
+    <Compile Include="Update\UpdateCheckerWeb.cs" />
+    <Compile Include="Update\UpdateException.cs" />
+    <Compile Include="Update\UpdateItem.cs" />
+    <Compile Include="Update\UpdateWorker.cs" />
+    <Compile Include="Update\VersionComparer.cs" />
+    <Compile Include="Utility\AppSettingHelper.cs" />
+    <Compile Include="Utility\FileHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Demo\SinglePageDemo.resx">
+      <DependentUpon>SinglePageDemo.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HTTPServerLib\HttpServerLib.csproj">
+      <Project>{C2310E13-8D59-4632-BF91-203BFF2FFE4F}</Project>
+      <Name>HttpServerLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

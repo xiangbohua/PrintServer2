@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpServerLib", "HTTPServerLib\HttpServerLib.csproj", "{C2310E13-8D59-4632-BF91-203BFF2FFE4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintService", "PrintService\PrintService.csproj", "{8DD3D2F4-048A-4C8E-B027-8D0B18B347D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C2310E13-8D59-4632-BF91-203BFF2FFE4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2310E13-8D59-4632-BF91-203BFF2FFE4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2310E13-8D59-4632-BF91-203BFF2FFE4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DD3D2F4-048A-4C8E-B027-8D0B18B347D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DD3D2F4-048A-4C8E-B027-8D0B18B347D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DD3D2F4-048A-4C8E-B027-8D0B18B347D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DD3D2F4-048A-4C8E-B027-8D0B18B347D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

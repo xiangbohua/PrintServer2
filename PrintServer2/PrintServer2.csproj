@@ -59,28 +59,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Delegates.cs" />
-    <Compile Include="Server\ConsoleLogger.cs" />
-    <Compile Include="Server\HTTPServer.cs" />
-    <Compile Include="Server\FileLogger.cs" />
-    <Compile Include="Server\PrintServer.cs" />
-    <Compile Include="Template\IPrintObject.cs" />
-    <Compile Include="Template\PdfEngin.cs" />
-    <Compile Include="Template\PdfPrint.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Template\PrintEngineFactory.cs" />
-    <Compile Include="Template\PrintQueue.cs" />
-    <Compile Include="Template\ReportGenerator.cs" />
-    <Compile Include="Template\TemplateContainer.cs" />
-    <Compile Include="UI\Language.cs" />
     <Compile Include="UI\PrintTray.cs" />
+    <Compile Include="UI\Templates.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Templates.Designer.cs">
+      <DependentUpon>Templates.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\TrayEventHander.cs" />
-    <Compile Include="Update\IUpdateChecker.cs" />
-    <Compile Include="Update\UpdateCheckerFile.cs" />
-    <Compile Include="Update\UpdateCheckerWeb.cs" />
-    <Compile Include="Update\VersionComparer.cs" />
-    <Compile Include="Utility\AppSettingHelper.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,11 +75,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Update\Enums.cs" />
-    <Compile Include="Update\UpdateException.cs" />
-    <Compile Include="Update\UpdateItem.cs" />
-    <Compile Include="Update\UpdateWorker.cs" />
-    <Compile Include="Utility\FileHelper.cs" />
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -107,6 +88,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\Templates.resx">
+      <DependentUpon>Templates.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
@@ -129,6 +113,10 @@
     <ProjectReference Include="..\HTTPServerLib\HttpServerLib.csproj">
       <Project>{c2310e13-8d59-4632-bf91-203bff2ffe4f}</Project>
       <Name>HttpServerLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrintService\PrintService.csproj">
+      <Project>{8DD3D2F4-048A-4C8E-B027-8D0B18B347D1}</Project>
+      <Name>PrintService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
