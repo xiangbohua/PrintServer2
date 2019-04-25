@@ -1,13 +1,8 @@
 using PrintService.Template;
-using System;
-using System.ComponentModel;
-using System.Drawing;
-using Telerik.Reporting;
-using Telerik.Reporting.Drawing;
 
 namespace PrintService.Demo
 {
-    
+
 
     /// <summary>
     /// Summary description for RepairProductLabel.
