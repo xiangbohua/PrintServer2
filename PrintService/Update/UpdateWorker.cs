@@ -1,4 +1,5 @@
 ﻿using PrintService.Common;
+using PrintService.UI;
 using PrintService.Utility;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace PrintService.Update
 {
     public class UpdateWorker
     {
+        private UpdateTimer  timer = null;
         /// <summary>
         /// Process Handler
         /// </summary>
@@ -29,16 +31,49 @@ namespace PrintService.Update
         /// </summary>
         private bool needUpdate = false;
 
+        private bool inProgress = false;
 
         /// <summary>
         /// Simplify construct using lamuda expresion
         /// </summary>
         /// <param name="checker"></param>
-        public UpdateWorker(IUpdateChecker checker) => this.updateChecker = checker;
+        public UpdateWorker(IUpdateChecker checker) {
+            this.updateChecker = checker;
+            this.timer = new UpdateTimer(this);
+        }
 
         public void SetUpdateProcessedHandler(OnUpdateProcessed handler)
         {
             this.updateProcessedHandler = handler;
+        }
+
+        /// <summary>
+        /// Start update progress
+        /// </summary>
+        public void StartProgress()
+        {
+            if (this.inProgress)
+            {
+                return;
+            }
+
+            this.inProgress = true;
+
+            try
+            {
+                this.Prepare();
+                this.CheckUpdateList();
+                this.BackUp();
+                this.DownloadFile();
+            }
+            catch
+            {
+                this.CleanUpOnError();
+            }
+            finally
+            {
+                this.inProgress = false;
+            }
         }
 
         /// <summary>
@@ -142,7 +177,6 @@ namespace PrintService.Update
                 foreach (var item in this.updateItem)
                 {
                     this.updateChecker.GetUpdateFIle(item, updateFileFolder);
-                    
                 }
             }
             catch (UpdateException e)
@@ -154,7 +188,8 @@ namespace PrintService.Update
             catch (Exception ex)
             {
                 this.needUpdate = false;
-                this.FireEvent(StepEnum.OnDownload, "下载更新文件失败");
+                var msg = Language.Instance().GetText("download_error", "Someting wrony when downloading update files");
+                this.FireEvent(StepEnum.OnDownload, msg);
             }
 
         }
@@ -173,7 +208,7 @@ namespace PrintService.Update
             {
                 foreach (var item in this.updateItem)
                 {
-                    this.updateChecker.BackupFile(item, backupFileFolder);
+                    File.Copy(item.FullPath(), backupFileFolder);
                 }
             }
             catch (UpdateException e)
@@ -185,12 +220,14 @@ namespace PrintService.Update
             catch (Exception ex)
             {
                 this.needUpdate = false;
-                this.FireEvent(StepEnum.OnDownload, "下载更新文件失败");
+                var msg = Language.Instance().GetText("backup_error", "Someting wrony when backing up update files");
+                this.FireEvent(StepEnum.OnBackup, msg);
             }
         }
 
         /// <summary>
         /// Do the update work
+        /// Kill this 
         /// </summary>
         /// <returns></returns>
         public void DoUpdate()
@@ -209,5 +246,7 @@ namespace PrintService.Update
             FileHelper.DeleteFilesInDir(backupFileFolder);
         }
 
+
     }
+
 }

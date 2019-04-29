@@ -52,7 +52,7 @@ namespace PrintServer2.UI
         internal void SupportedTemplates_Click(object sender, EventArgs e)
         {
             Templates formTemplate = new Templates();
-            formTemplate.SetList(this.printServer.GetEngin().GetTemplates());
+            formTemplate.SetList(this.printServer);
             formTemplate.Show();
         }
 

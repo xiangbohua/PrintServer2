@@ -66,6 +66,12 @@
     <Compile Include="UI\Logs.Designer.cs">
       <DependentUpon>Logs.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ShowTemplateDesc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ShowTemplateDesc.Designer.cs">
+      <DependentUpon>ShowTemplateDesc.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Templates.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +102,9 @@
     </Compile>
     <EmbeddedResource Include="UI\Logs.resx">
       <DependentUpon>Logs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ShowTemplateDesc.resx">
+      <DependentUpon>ShowTemplateDesc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Templates.resx">
       <DependentUpon>Templates.cs</DependentUpon>

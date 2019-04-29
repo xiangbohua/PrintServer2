@@ -9,6 +9,7 @@ using HTTPServerLib;
 using PrintService.Common;
 using PrintService.Template;
 using PrintService.UI;
+using PrintService.Update;
 using PrintService.Utility;
 
 namespace PrintService.Server
@@ -29,6 +30,8 @@ namespace PrintService.Server
         private LogContainer logContainer = null;
 
         private PrintStatistics printStatistics = null;
+
+        private UpdateWorker updateWorker = null;
 
         private IEngin printEngin = null;
         private bool PrintNow = true;
@@ -67,6 +70,8 @@ namespace PrintService.Server
 
             this.ServerThread = new Thread(new ThreadStart(HttpServerThread));
             this.OnPrintServerLogged = delegate (string maeesage) { Console.WriteLine(maeesage); };
+
+            this.updateWorker = new UpdateWorker(UpdateCheckerProvider.GetChcker());
         }
 
         public void LoadPrinters()
@@ -235,7 +240,6 @@ namespace PrintService.Server
         {
             try
             {
-                ;
                 HttpRequest httpRequest = objectPara as HttpRequest;
                 if (httpRequest != null)
                 {

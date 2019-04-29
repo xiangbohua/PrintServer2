@@ -7,11 +7,8 @@ namespace PrintService.Update
     public class UpdateCheckerWeb : IUpdateChecker
     {
         private string updateUrl = null;
-
-        public void BackupFile(UpdateItem item, string backupPath)
-        {
-            File.Copy(Environment.CurrentDirectory + item.FileName, backupPath);
-        }
+        private string user;
+        private string psd;
 
         public void GetUpdateFIle(UpdateItem item, string savingPath)
         {
@@ -46,6 +43,12 @@ namespace PrintService.Update
         public void SetURI(string uri)
         {
             this.updateUrl = uri;
+        }
+
+        public void SetVerify(string user, string psd)
+        {
+            this.user = user;
+            this.psd = psd;
         }
     }
 }

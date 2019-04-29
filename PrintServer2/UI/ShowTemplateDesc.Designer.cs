@@ -1,6 +1,6 @@
 ﻿namespace PrintServer2.UI
 {
-    partial class Templates
+    partial class ShowTemplateDesc
     {
         /// <summary>
         /// Required designer variable.
@@ -28,34 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listTemplates = new System.Windows.Forms.ListBox();
+            this.listTemplateDesc = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
-            // listTemplates
+            // listTemplateDesc
             // 
-            this.listTemplates.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listTemplates.FormattingEnabled = true;
-            this.listTemplates.ItemHeight = 12;
-            this.listTemplates.Location = new System.Drawing.Point(0, 0);
-            this.listTemplates.Name = "listTemplates";
-            this.listTemplates.Size = new System.Drawing.Size(800, 450);
-            this.listTemplates.TabIndex = 1;
-            this.listTemplates.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listTemplates_MouseDoubleClick);
+            this.listTemplateDesc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listTemplateDesc.FormattingEnabled = true;
+            this.listTemplateDesc.ItemHeight = 12;
+            this.listTemplateDesc.Location = new System.Drawing.Point(0, 0);
+            this.listTemplateDesc.Name = "listTemplateDesc";
+            this.listTemplateDesc.Size = new System.Drawing.Size(382, 381);
+            this.listTemplateDesc.TabIndex = 2;
             // 
-            // Templates
+            // TemplateDesc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.listTemplates);
-            this.Name = "Templates";
-            this.Text = "Templates";
+            this.ClientSize = new System.Drawing.Size(382, 381);
+            this.Controls.Add(this.listTemplateDesc);
+            this.Name = "TemplateDesc";
+            this.Text = "TemplateDesc";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ListBox listTemplates;
+        private System.Windows.Forms.ListBox listTemplateDesc;
     }
 }

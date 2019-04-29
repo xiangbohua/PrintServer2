@@ -29,6 +29,11 @@ namespace PrintService.Template
             return model;
         }
 
+        public List<TemplateDesc> GetTemplateDesc(string templateName)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<string> GetTemplates()
         {
             var tList = new List<string>();

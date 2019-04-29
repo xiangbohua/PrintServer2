@@ -9,5 +9,7 @@ namespace PrintService.Template
         List<string> GetTemplates();
 
         void Initialize();
+
+        List<TemplateDesc> GetTemplateDesc(string templateName);
     }
 }

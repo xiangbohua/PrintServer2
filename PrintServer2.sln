@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpServerLib", "HTTPServer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintService", "PrintService\PrintService.csproj", "{8DD3D2F4-048A-4C8E-B027-8D0B18B347D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{48ACF9BC-A76D-4D68-90E4-0CE92DE277B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{8DD3D2F4-048A-4C8E-B027-8D0B18B347D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DD3D2F4-048A-4C8E-B027-8D0B18B347D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DD3D2F4-048A-4C8E-B027-8D0B18B347D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48ACF9BC-A76D-4D68-90E4-0CE92DE277B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48ACF9BC-A76D-4D68-90E4-0CE92DE277B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48ACF9BC-A76D-4D68-90E4-0CE92DE277B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48ACF9BC-A76D-4D68-90E4-0CE92DE277B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

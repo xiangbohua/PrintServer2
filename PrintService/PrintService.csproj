@@ -81,6 +81,8 @@
     <Compile Include="Template\PrintQueue.cs" />
     <Compile Include="Template\ReportGenerator.cs" />
     <Compile Include="Template\TemplateContainer.cs" />
+    <Compile Include="Template\TemplateDesc.cs" />
+    <Compile Include="Template\TemplateParaAttribute.cs" />
     <Compile Include="UI\Language.cs" />
     <Compile Include="Update\Enums.cs" />
     <Compile Include="Update\IUpdateChecker.cs" />
@@ -88,10 +90,12 @@
     <Compile Include="Update\UpdateCheckerWeb.cs" />
     <Compile Include="Update\UpdateException.cs" />
     <Compile Include="Update\UpdateItem.cs" />
+    <Compile Include="Update\UpdateTimer.cs" />
     <Compile Include="Update\UpdateWorker.cs" />
     <Compile Include="Update\VersionComparer.cs" />
     <Compile Include="Utility\AppSettingHelper.cs" />
     <Compile Include="Utility\FileHelper.cs" />
+    <Compile Include="Utility\ShareFolderHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HTTPServerLib\HttpServerLib.csproj">
