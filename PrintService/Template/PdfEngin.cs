@@ -20,7 +20,7 @@ namespace PrintService.Template
             Type modelType = TemplateContainer.GetInstance().GetTemplateType(print_type);
             if (modelType == null)
             {
-                throw new Exception(Language.Instance().GetText("err_unknown_template", "Error:Unknown Template"));
+                throw new Exception(Language.I.Text("err_unknown_template", "Error:Unknown Template"));
             }
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();

@@ -19,13 +19,16 @@ namespace PrintService.UI
         /// single instance mode
         /// </summary>
         /// <returns></returns>
-        public static Language Instance()
+        public static Language I
         {
-            if (instance == null)
+            get
             {
-                instance = new Language();
-            }
-            return instance;
+                if (instance == null)
+                {
+                    instance = new Language();
+                }
+                return instance;
+            }            
         }
 
         public Language()
@@ -58,7 +61,7 @@ namespace PrintService.UI
         /// Get the lanaguage name
         /// </summary>
         /// <returns></returns>
-        public string GetHint()
+        public string Hint()
         {
             return this.languages == null ? DefaultLanguageHint : this.languageHint;
         }
@@ -69,7 +72,7 @@ namespace PrintService.UI
         /// <param name="textKey"></param>
         /// <param name="defaultText"></param>
         /// <returns></returns>
-        public string GetText(string textKey, string defaultText)
+        public string Text(string textKey, string defaultText)
         {
             if (this.languages != null && this.languages.ContainsKey(textKey))
             {

@@ -50,7 +50,7 @@ namespace PrintServer2.UI
         /// </summary>
         private void InitTray()
         {
-            this.language = Language.Instance();
+            this.language = Language.I;
 
             this.notifyIcon = new NotifyIcon();
             this.notifyIcon.BalloonTipText = AppSettingHelper.GetOne("IconHint", "Print server was runing in backgroud");
@@ -60,26 +60,26 @@ namespace PrintServer2.UI
             this.notifyIcon.Visible = true;
             this.notifyIcon.ShowBalloonTip(2000);
             
-            this.changeLanguage = new MenuItem(this.language.GetText("language", "Lanaguage"));
+            this.changeLanguage = new MenuItem(this.language.Text("language", "Lanaguage"));
 
-            var portString = this.language.GetText("language", "Lanaguage") + "(" + this.printServer.GetWorkingPort().ToString() + ")";
+            var portString = this.language.Text("language", "Lanaguage") + "(" + this.printServer.GetWorkingPort().ToString() + ")";
             this.changePort = new MenuItem();
 
-            this.supportedTemplate = new MenuItem(this.language.GetText("show_templates", "Show Temlpates"));
+            this.supportedTemplate = new MenuItem(this.language.Text("show_templates", "Show Temlpates"));
             this.supportedTemplate.Click += this.clickHander.SupportedTemplates_Click;
 
 
-            this.selectPrinter = new MenuItem(this.language.GetText("select_printer", "Select Printer"));
+            this.selectPrinter = new MenuItem(this.language.Text("select_printer", "Select Printer"));
             
-            this.printNow = new MenuItem(this.language.GetText("print_now", "Print Now"));
+            this.printNow = new MenuItem(this.language.Text("print_now", "Print Now"));
             this.printNow.Checked = this.printServer.GetPrintMode();
             this.printNow.Click += this.clickHander.PrintMode_Click;
 
 
-            this.showLog = new MenuItem(this.language.GetText("show_log", "Show Logs"));
+            this.showLog = new MenuItem(this.language.Text("show_log", "Show Logs"));
             this.showLog.Click += this.clickHander.ShowLog_Click;
 
-            this.exitItem = new MenuItem(this.language.GetText("exit", "Exit"));
+            this.exitItem = new MenuItem(this.language.Text("exit", "Exit"));
             this.exitItem.Click += this.clickHander.Exit_Click;
 
             MenuItem[] childen = new MenuItem[] {
@@ -133,7 +133,7 @@ namespace PrintServer2.UI
         {
             this.selectPrinter.MenuItems.Clear();
             
-            var refreshPrinter = new MenuItem(this.language.GetText("refresh_printer", "Refresh Printer"));
+            var refreshPrinter = new MenuItem(this.language.Text("refresh_printer", "Refresh Printer"));
             refreshPrinter.Click += this.clickHander.RefreshPrinter_Click;
             this.selectPrinter.MenuItems.Add(refreshPrinter);
             foreach (var pName in printerNames) {

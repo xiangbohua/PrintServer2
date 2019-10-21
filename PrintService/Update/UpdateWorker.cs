@@ -10,6 +10,8 @@ namespace PrintService.Update
 {
     public class UpdateWorker
     {
+        public VoidStringDelegate OnUpdateStarted = null;
+
         private UpdateTimer  timer = null;
         /// <summary>
         /// Process Handler
@@ -23,8 +25,8 @@ namespace PrintService.Update
 
         private List<UpdateItem> updateItem = null;
 
-        private const string UpdatePath = "/temp/update";
-        private const string BackupPath = "/temp/backup";
+        private const string UpdatePath = "/temp/update/";
+        private const string BackupPath = "/temp/backup/";
 
         /// <summary>
         /// Indicate that if the update process was needed
@@ -63,6 +65,12 @@ namespace PrintService.Update
             {
                 this.Prepare();
                 this.CheckUpdateList();
+                if (this.needUpdate)
+                {
+                    var msg = Language.I.Text("update_started", "Update progress started.");
+
+                    this.OnUpdateStarted?.Invoke(msg);
+                } 
                 this.BackUp();
                 this.DownloadFile();
             }
@@ -76,18 +84,7 @@ namespace PrintService.Update
             }
         }
 
-        /// <summary>
-        /// Throw the exception when needed
-        /// </summary>
-        /// <param name="condition"></param>
-        /// <param name="step"></param>
-        /// <param name="message"></param>
-        private void TryThrowException(bool condition, StepEnum step, string message)
-        {
-            if (!condition) {
-                throw new UpdateException(step, message);
-            }
-        }
+        
 
         /// <summary>
         /// Fire the update event
@@ -112,7 +109,7 @@ namespace PrintService.Update
         public void Prepare()
         {
             var uri = AppSettingHelper.GetOne("UpdateServer");
-            this.TryThrowException("" != uri, StepEnum.OnPrepare, "无法获取更新地址");
+            ThrowHelper.TryThrow("" != uri, StepEnum.OnPrepare, Language.I.Text("empty_update_uri", "Can not get update url!"));
             this.updateChecker.SetURI(uri);
         }
 
@@ -123,7 +120,7 @@ namespace PrintService.Update
         {
             try
             {
-                this.FireEvent(StepEnum.OnCheck, "正在获取更新列表");
+                this.FireEvent(StepEnum.OnCheck, Language.I.Text("getting_list", "Fetching update file list!"));
 
                 var cp = new VersionComparer();
                 this.updateItem = cp.CompareVersion(this.GetLocalFileVersion(), this.updateChecker.GetUpdateItems());
@@ -168,6 +165,10 @@ namespace PrintService.Update
         /// </summary>
         public void DownloadFile()
         {
+            if (!this.needUpdate)
+            {
+                return;
+            }
             var updateFileFolder = Environment.CurrentDirectory + UpdatePath;
 
             FileHelper.CreateDir(updateFileFolder);
@@ -188,7 +189,7 @@ namespace PrintService.Update
             catch (Exception ex)
             {
                 this.needUpdate = false;
-                var msg = Language.Instance().GetText("download_error", "Someting wrony when downloading update files");
+                var msg = Language.I.Text("download_error", "Someting wrony when downloading update files");
                 this.FireEvent(StepEnum.OnDownload, msg);
             }
 
@@ -199,6 +200,10 @@ namespace PrintService.Update
         /// </summary>
         public void BackUp()
         {
+            if (!this.needUpdate)
+            {
+                return;
+            }
             var backupFileFolder = Environment.CurrentDirectory + BackupPath;
 
             FileHelper.CreateDir(backupFileFolder);
@@ -220,7 +225,7 @@ namespace PrintService.Update
             catch (Exception ex)
             {
                 this.needUpdate = false;
-                var msg = Language.Instance().GetText("backup_error", "Someting wrony when backing up update files");
+                var msg = Language.I.Text("backup_error", "Someting wrony when backing up update files");
                 this.FireEvent(StepEnum.OnBackup, msg);
             }
         }
@@ -232,7 +237,10 @@ namespace PrintService.Update
         /// <returns></returns>
         public void DoUpdate()
         {
-
+            if (!this.needUpdate)
+            {
+                return;
+            }
         }
 
         /// <summary>

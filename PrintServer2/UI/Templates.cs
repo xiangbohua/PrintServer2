@@ -14,7 +14,7 @@ namespace PrintServer2.UI
         {
             InitializeComponent();
 
-            this.Text = Language.Instance().GetText("title_templates", "Supported Templates");
+            this.Text = Language.I.Text("title_templates", "Supported Templates");
         }
 
         public void SetList(PrintServer printServer)

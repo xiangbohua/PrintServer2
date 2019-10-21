@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace PrintService.Common
 {
+    public delegate void VoidStringDelegate(string message);
+
     public delegate void PrinterChanged(string newPrintName);
 
     public delegate void PrinterLoaded(List<string> printerNames);

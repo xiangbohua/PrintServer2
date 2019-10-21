@@ -10,6 +10,11 @@ namespace PrintService.Update
         private string user;
         private string psd;
 
+        public void CleanUpdateServices()
+        {
+            
+        }
+
         public void GetUpdateFIle(UpdateItem item, string savingPath)
         {
             
@@ -38,6 +43,11 @@ namespace PrintService.Update
             //}
 
             return fileInfoDictionary;
+        }
+
+        public void Prepare()
+        {
+            
         }
 
         public void SetURI(string uri)

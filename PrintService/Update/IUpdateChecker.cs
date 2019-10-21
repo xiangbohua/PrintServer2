@@ -8,6 +8,11 @@ namespace PrintService.Update
     public interface IUpdateChecker
     {
         /// <summary>
+        /// Prepare the update services
+        /// </summary>
+        void Prepare();
+
+        /// <summary>
         /// Set file uri
         /// </summary>
         /// <param name="uri"></param>
@@ -32,6 +37,11 @@ namespace PrintService.Update
         /// <param name="item"></param>
         /// <param name="savingPath"></param>
         void GetUpdateFIle(UpdateItem item, string savingPath);
+
+        /// <summary>
+        /// Chean the update services
+        /// </summary>
+        void CleanUpdateServices();
     }
 
     public class UpdateCheckerProvider
@@ -49,7 +59,7 @@ namespace PrintService.Update
             {
                 return SupportedChecker[checkerName];
             }
-            var msg = Language.Instance().GetText("known_checker", "Unsupported updater name");
+            var msg = Language.I.Text("known_checker", "Unsupported updater name");
             throw new Exception(msg);
         }
 

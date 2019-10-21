@@ -44,7 +44,7 @@ namespace PrintService.Template
         public Type GetTemplateType(string typeName)
         {
             if (!this.container.ContainsKey(typeName)) {
-                throw new Exception(Language.Instance().GetText("unknown_template", "Unknown template plage check your data."));
+                throw new Exception(Language.I.Text("unknown_template", "Unknown template plage check your data."));
             }
             return this.container[typeName];
         }
@@ -79,7 +79,7 @@ namespace PrintService.Template
                 this.templateDescContainer.Add(templateName, templateDesc);
                 return templateDesc;
             }
-            throw new Exception(Language.Instance().GetText("template_desc_error", "Can not found the desc of this template."));
+            throw new Exception(Language.I.Text("template_desc_error", "Can not found the desc of this template."));
         }
 
 

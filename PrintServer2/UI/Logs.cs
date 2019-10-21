@@ -14,7 +14,7 @@ namespace PrintServer2.UI
         {
             InitializeComponent();
 
-            this.Text = Language.Instance().GetText("title_log", "Print Logs");
+            this.Text = Language.I.Text("title_log", "Print Logs");
         }
 
         public void SetLoger(LogContainer logContainer)

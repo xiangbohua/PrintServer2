@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PrintService.Common;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -14,9 +15,9 @@ namespace PrintService.Utility
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static bool CheckConnectivity(string path)
+        public static void ConnectShareFolder(string path)
         {
-            return CheckConnectivity(path, "", "");
+            ConnectShareFolder(path, "", "");
         }
 
         /// <summary>
@@ -24,9 +25,8 @@ namespace PrintService.Utility
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static bool CheckConnectivity(string path, string userName, string passWord)
+        public static void ConnectShareFolder(string path, string userName, string passWord)
         {
-            bool Flag = false;
             Process proc = new Process();
             try
             {
@@ -48,9 +48,43 @@ namespace PrintService.Utility
                 proc.StandardError.Close();
                 if (string.IsNullOrEmpty(errormsg))
                 {
-                    Flag = true;
+                    throw new Exception(errormsg);
                 }
-                else
+            }
+            finally
+            {
+                proc.Close();
+                proc.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Disconnect the share folder
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static void Disconnect(string path)
+        {
+            Process proc = new Process();
+            try
+            {
+                proc.StartInfo.FileName = "cmd.exe";
+                proc.StartInfo.UseShellExecute = false;
+                proc.StartInfo.RedirectStandardInput = true;
+                proc.StartInfo.RedirectStandardOutput = true;
+                proc.StartInfo.RedirectStandardError = true;
+                proc.StartInfo.CreateNoWindow = true;
+                proc.Start();
+                string dosLine = @"net use " + path + " /del";
+                proc.StandardInput.WriteLine(dosLine);
+                proc.StandardInput.WriteLine("exit");
+                while (!proc.HasExited)
+                {
+                    proc.WaitForExit(1000);
+                }
+                string errormsg = proc.StandardError.ReadToEnd();
+                proc.StandardError.Close();
+                if (!string.IsNullOrEmpty(errormsg))
                 {
                     throw new Exception(errormsg);
                 }
@@ -60,9 +94,7 @@ namespace PrintService.Utility
                 proc.Close();
                 proc.Dispose();
             }
-            return Flag;
+
         }
-
-
     }
 }

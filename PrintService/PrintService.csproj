@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Delegates.cs" />
+    <Compile Include="Common\ThrowHelper.cs" />
     <Compile Include="Demo\SinglePageDemo.cs">
       <SubType>Component</SubType>
     </Compile>

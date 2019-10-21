@@ -158,11 +158,11 @@ namespace PrintService.Server
                 HttpServer?.Stop();
                 _requestStop = true;
                 this.printEvent.Set();
-                SafeFireLoging(Language.Instance().GetText("stoped", "Server was stoped"));
+                SafeFireLoging(Language.I.Text("stoped", "Server was stoped"));
             }
             catch (Exception ex)
             {
-                SafeFireLoging(Language.Instance().GetText("stoped", "Server was stoped"));
+                SafeFireLoging(Language.I.Text("stoped", "Server was stoped"));
                 HttpServer.Logger.Log(ex.ToString());
             }
         }
@@ -225,14 +225,14 @@ namespace PrintService.Server
             try
             {
                 ThreadPool.QueueUserWorkItem(new WaitCallback(PrintWithThread), request);
-                SafeFireLoging(Language.Instance().GetText("add_succeed", "Add task succeed"));
+                SafeFireLoging(Language.I.Text("add_succeed", "Add task succeed"));
 
-                return Language.Instance().GetText("request_accepted", "Print request acceepted.");
+                return Language.I.Text("request_accepted", "Print request acceepted.");
             }
             catch (Exception e)
             {
                 HttpServer.Logger.Log(e.ToString());
-                return Language.Instance().GetText("request_error", "Print request was not acceepted."); ;
+                return Language.I.Text("request_error", "Print request was not acceepted."); ;
             }
         }
         private object _locker = new object();
@@ -257,13 +257,13 @@ namespace PrintService.Server
                 }
                 else
                 {
-                    var message = Language.Instance().GetText("type_error", "Current parameter was not acctpeetable");
+                    var message = Language.I.Text("type_error", "Current parameter was not acctpeetable");
                     SafeFireLoging(message);
                 }
             }
             catch (Exception ex)
             {
-                SafeFireLoging(Language.Instance().GetText("err_print", "Error:") + ex.Message);
+                SafeFireLoging(Language.I.Text("err_print", "Error:") + ex.Message);
                 HttpServer.Logger.Log(ex.ToString());
             }
             SafeFirsStatistics();
@@ -336,7 +336,7 @@ namespace PrintService.Server
             }
             catch (Exception ex)
             {
-                SafeFireLoging(Language.Instance().GetText("statistics", "Update statistics error!"));
+                SafeFireLoging(Language.I.Text("statistics", "Update statistics error!"));
                 HttpServer.Logger.Log(ex.ToString());
             }
         }
@@ -350,19 +350,19 @@ namespace PrintService.Server
                     this.selectedPrinterName = printerName;
                     OnPrinterChanged?.Invoke(this.selectedPrinterName);
 
-                    var printLog = Language.Instance().GetText("printer_selected", "Printer selected and this printer will be used when next start!");
+                    var printLog = Language.I.Text("printer_selected", "Printer selected and this printer will be used when next start!");
                     SafeFireLoging(printLog);
 
                     WritPrinterName(printerName);
                 }
                 else
                 {
-                    SafeFireLoging(Language.Instance().GetText("invalid_printer", "Printer was invalid!"));
+                    SafeFireLoging(Language.I.Text("invalid_printer", "Printer was invalid!"));
                 }
             }
             catch (Exception ex)
             {
-                SafeFireLoging(Language.Instance().GetText("invalid_printer", "Printer was invalid!"));
+                SafeFireLoging(Language.I.Text("invalid_printer", "Printer was invalid!"));
                 HttpServer.Logger.Log(ex.ToString());
             }
         }
@@ -377,7 +377,7 @@ namespace PrintService.Server
             }
             catch (Exception ex)
             {
-                this.SafeFireLoging(Language.Instance().GetText("unknown_error", "Unknown error!"));
+                this.SafeFireLoging(Language.I.Text("unknown_error", "Unknown error!"));
                 HttpServer.Logger.Log(ex.ToString());
             }
             this.printStatistics.Printed(succeed);
@@ -453,7 +453,7 @@ namespace PrintService.Server
             }
             catch (Win32Exception win32Exception)
             {
-                var msg = Language.Instance().GetText("reader_require", "Pdf reader was required, please install and set is as default.");
+                var msg = Language.I.Text("reader_require", "Pdf reader was required, please install and set is as default.");
                 this.SafeFireLoging(msg);
                 throw;
             }

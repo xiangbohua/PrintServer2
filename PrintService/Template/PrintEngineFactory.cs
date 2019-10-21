@@ -15,7 +15,7 @@ namespace PrintService.Template
                 case "PDF":
                     return new PdfEngin();
                 default:
-                    throw new Exception(Language.Instance().GetText("ex_unkown_engin", "Print error unknown engin name!"));
+                    throw new Exception(Language.I.Text("ex_unkown_engin", "Print error unknown engin name!"));
             }
         }
     }
